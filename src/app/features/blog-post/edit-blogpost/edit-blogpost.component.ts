@@ -1,4 +1,4 @@
-import { Component, Input, NgModule, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { BlogPostService } from '../services/blog-post.service';
@@ -9,11 +9,12 @@ import { MarkdownModule } from 'ngx-markdown';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category.model';
 import { UpdateBlogPost } from '../models/update-blog-post.model';
+import { ImageSelectorComponent } from 'src/app/shared/components/image-selector/image-selector.component';
 
 @Component({
   selector: 'app-edit-blogpost',
   standalone: true,
-  imports: [FormsModule, CommonModule, MarkdownModule],
+  imports: [FormsModule, CommonModule, MarkdownModule, ImageSelectorComponent],
   templateUrl: './edit-blogpost.component.html',
   styleUrl: './edit-blogpost.component.css'
 })
