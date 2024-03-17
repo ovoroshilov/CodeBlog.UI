@@ -28,6 +28,8 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   categories$?: Observable<Category[]>
   selectedCategories?: string[]
 
+  isImgSelectorVisible: boolean = false
+
   updatePostSub?: Subscription
   getPostSub?: Subscription
   deletePostSub?: Subscription
@@ -71,6 +73,14 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
         }
       })
     }
+  }
+
+  openImgSelectorWindow(): void {
+   this.isImgSelectorVisible = true;
+  }
+
+  closeImgSelectorWindow(): void{
+    this.isImgSelectorVisible = false;
   }
 
   onDelete(): void{
