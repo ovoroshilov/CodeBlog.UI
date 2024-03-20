@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { CategoryService } from '../services/category.service';
 import { Category } from '../models/category.model';
 import { UpdateCategoryRequest } from '../models/update-category-request';
+import { ImageService } from 'src/app/shared/components/image-selector/service/image.service';
 
 @Component({
   selector: 'app-edit-category',
@@ -16,13 +17,15 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
  editSub?: Subscription;
  category?: Category;
 
- constructor(private route: ActivatedRoute,  private service: CategoryService, private router: Router){}
+ constructor(private route: ActivatedRoute,  private service: CategoryService,
+   private router: Router,){}
  
   
   ngOnInit(): void {
    this.paramsSub = this.route.paramMap.subscribe({
     next: (params) => {
       this.id = params.get('id');
+
       if(this.id){
          this.service.getCategoryById(this.id).subscribe({
           next: (response) => {

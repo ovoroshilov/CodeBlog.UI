@@ -10,6 +10,7 @@ import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category.model';
 import { UpdateBlogPost } from '../models/update-blog-post.model';
 import { ImageSelectorComponent } from 'src/app/shared/components/image-selector/image-selector.component';
+import { ImageService } from 'src/app/shared/components/image-selector/service/image.service';
 
 @Component({
   selector: 'app-edit-blogpost',
@@ -33,8 +34,9 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   updatePostSub?: Subscription
   getPostSub?: Subscription
   deletePostSub?: Subscription
+  imgSelectSub?: Subscription
   constructor(private route: ActivatedRoute, private service: BlogPostService,
-    private categoryService: CategoryService, private router: Router) { }
+    private categoryService: CategoryService, private router: Router, private imageService: ImageService) { }
 
   ngOnInit(): void {
     this.categories$ = this.categoryService.getAllCategories();
@@ -42,6 +44,7 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.paramMap.subscribe({
       next: (params) => {
         this.id = params.get('id')
+
         if (this.id) {
           this.getPostSub = this.service.getBlogPostById(this.id).subscribe({
             next: (response) => {
@@ -50,7 +53,16 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
             }
           })
         }
-      },
+
+        this.imgSelectSub = this.imageService.onSelectImage().subscribe({
+          next: (res) => {
+            if (this.model) {
+              this.model.featuredImageUrl = res.url
+              this.isImgSelectorVisible = false
+            }
+          }
+        })
+      }
     })
   }
 
@@ -58,7 +70,7 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
     if (this.model && this.id) {
       var updateBlogPost: UpdateBlogPost = {
         author: this.model.author,
-        content: this.model.author,
+        content: this.model.content,
         shortDescription: this.model.shortDescription,
         featuredImageUrl: this.model.featuredImageUrl,
         isVisible: this.model.isVisible,
@@ -76,17 +88,17 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   }
 
   openImgSelectorWindow(): void {
-   this.isImgSelectorVisible = true;
+    this.isImgSelectorVisible = true;
   }
 
-  closeImgSelectorWindow(): void{
+  closeImgSelectorWindow(): void {
     this.isImgSelectorVisible = false;
   }
 
-  onDelete(): void{
-    if(this.id){
-     this.deletePostSub = this.service.deleteBlogPost(this.id).subscribe({
-        next: (response) =>{
+  onDelete(): void {
+    if (this.id) {
+      this.deletePostSub = this.service.deleteBlogPost(this.id).subscribe({
+        next: (response) => {
           this.router.navigateByUrl('/admin/blogposts');
         }
       })
@@ -98,5 +110,6 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
     this.updatePostSub?.unsubscribe()
     this.getPostSub?.unsubscribe()
     this.deletePostSub?.unsubscribe()
+    this.imgSelectSub?.unsubscribe()
   }
 }

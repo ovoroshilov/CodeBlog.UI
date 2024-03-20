@@ -12,25 +12,27 @@ import { EditCategoryComponent } from './features/category/edit-category/edit-ca
 import { BlogpostListComponent } from './features/blog-post/blogpost-list/blogpost-list.component';
 import { AddBlogpostComponent } from './features/blog-post/add-blogpost/add-blogpost.component'
 import { MarkdownModule } from 'ngx-markdown';
+import { ImageSelectorComponent } from "./shared/components/image-selector/image-selector.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    CategoryListComponent,
-    AddCategoryComponent,
-    EditCategoryComponent,
-    BlogpostListComponent,
-    AddBlogpostComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    MarkdownModule.forRoot()
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        CategoryListComponent,
+        AddCategoryComponent,
+        EditCategoryComponent,
+        BlogpostListComponent,
+        AddBlogpostComponent
+    ],
+    providers: [],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        MarkdownModule.forRoot(),
+        ImageSelectorComponent
+    ]
 })
 export class AppModule { }
